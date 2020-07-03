@@ -11,6 +11,9 @@ function Search() {
     // // Param and Afrin
 
     const [books, setBooks] = useState({ items: [] });
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
+
 
     const [searchTerm, setSearchTerm] = useState('');
     const onInputChange = (e) => {
@@ -18,24 +21,41 @@ function Search() {
     }
 
     const fetchBooks = async () => {
-        // Ajax call to API using Axios
-        const result = await axios.get(`${API_URL}?q=${searchTerm}`);
-        // Books result
-        // console.log(result.data);
-        setBooks(result.data);
+        // set loading Before API operation starts
+        // // Books result
+        // // console.log(result.data);
+        setLoading(true);
+        setError(false);
+        try {
+            const result = await axios.get(`${API_URL}?q=${searchTerm}`);
+            setBooks(result.data);
+        }
+        catch (error) {
+            setError(true);
+        }
+        // After API operation end
+        setLoading(false);
     }
 
     const bookAuthors = authors => {
-        if (authors.length <= 2) {
-          authors = authors.join(' and ');
-        } else if (authors.length > 2) {
-          let lastAuthor = ' and ' + authors.slice(-1);
-          authors.pop();
-          authors = authors.join(', ');
-          authors += lastAuthor;
+        if (authors) {
+            if (authors.length <= 2) {
+                authors = authors.join(' and ');
+            } else if (authors.length > 2) {
+                let lastAuthor = ' and ' + authors.slice(-1);
+                authors.pop();
+                authors = authors.join(', ');
+                if (lastAuthor === undefined) {
+                    console.log(authors)
+                }
+                authors += lastAuthor;
+            }
+        } else {
+            authors = "No Author";
         }
         return authors;
-      };
+
+    };
 
     // Submit handler
     const onSubmitHandler = (e) => {
@@ -59,6 +79,12 @@ function Search() {
 
                     <button type="submit">Search</button>
                 </label>
+                {
+                    error && <div style={{ color: `red` }}>some error occurred, while fetching api</div>
+                }
+                {
+                    loading && <div style={{ color: `green` }}>fetching books for "<strong>{searchTerm}</strong>"</div>
+                }
             </form>
             <ul>
                 {
@@ -69,7 +95,7 @@ function Search() {
                                     <img alt={`${book.volumeInfo.title} book`} src={`http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=1&zoom=1&source=gbs_api`} />
                                     <div>
                                         <h3>{book.volumeInfo.title}</h3>
-                                        <p>{ bookAuthors(book.volumeInfo.authors) }</p>
+                                        <p>{bookAuthors(book.volumeInfo.authors)}</p>
                                         <p>{book.volumeInfo.publishedDate}</p>
                                     </div>
                                 </div>
