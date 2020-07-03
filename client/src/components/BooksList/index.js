@@ -1,4 +1,6 @@
 import React from 'react';
+import "./style.css";
+
 // Separate the UI specific transforming logic to utils folder
 //import { bookAuthors } from '../utils';
 const bookAuthors = (authors) => {
@@ -17,34 +19,39 @@ const bookAuthors = (authors) => {
     return authors;
 }
 const Book = ({ book }) => {
-    
-  return (
-    <li>
-      <div>
-        <img
-          alt={`${book.volumeInfo.title} book`}
-          src={`http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=1&zoom=1&source=gbs_api`}
-        />
+
+    return (
         <div>
-          <h3>{book.volumeInfo.title}</h3>
-          <p>{bookAuthors(book.volumeInfo.authors)}</p>
-          <p>{book.volumeInfo.publishedDate}</p>
-          <p>{book.volumeInfo.description}</p>
-          <p>{book.volumeInfo.infoLink}</p>
-          <p>{book.id}</p>
+            <div className="row" key={book.id}>
+                <div className="col">{book.volumeInfo.title}
+                    <button onClick={() => book.saveBook(book.id)} className="save">Save</button>
+                    <button onClick={() => book.saveBook(book.id)} className="view">View</button>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col">{book.volumeInfo.publishedDate}</div>
+            </div>
+            <div className="row">
+                <div className="col">{bookAuthors(book.volumeInfo.authors)}</div>
+            </div>
+            <duv className="row">
+                <div className="col img-fluid">
+                    <img alt={`${book.volumeInfo.title} book`}
+                        src={`http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=&img=1&zoom=&ksource=gbs_api`} />
+                    <span className="text">{book.volumeInfo.description}</span>
+                </div>
+            </duv>
         </div>
-      </div>
-      <hr />
-    </li>
-  );
+    );
 };
-const BooksList = ({ books }) => {
-  return (
-    <ul>
-      {books.items.map((book, index) => {
-        return <Book book={book} key={index} />;
-      })}
-    </ul>
-  );
-};
-export default BooksList;
+
+    const BooksList = ({ books }) => {
+        return (
+            <ul>
+                {books.items.map((book, index) => {
+                    return <Book book={book} key={index} />;
+                })}
+            </ul>
+        );
+    };
+    export default BooksList;
