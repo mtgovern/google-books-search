@@ -12,7 +12,7 @@ const BookSearchForm = ({
         <span>Search for books</span>
         <input
           type="search"
-          placeholder="microservice, restful design, etc.,"
+          placeholder=""
           value={searchTerm}
           onChange={onInputChange}
           required

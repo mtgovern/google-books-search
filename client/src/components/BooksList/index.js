@@ -1,5 +1,6 @@
 import React from 'react';
 import "./style.css";
+import API from "../../utils/API";
 
 // Separate the UI specific transforming logic to utils folder
 //import { bookAuthors } from '../utils';
@@ -18,18 +19,39 @@ const bookAuthors = (authors) => {
     }
     return authors;
 }
+
+function handleSave(book) {
+    // event.preventDefault();
+    // if (formObject.title && formObject.author) {
+      API.saveBook({
+        title: book.volumeInfo.title,
+        authors: book.volumeInfo.authors,
+        description: book.volumeInfo.description,
+        image: book.volumeInfo.imageLinks
+        ? book.volumeInfo.imageLinks.thumbnail
+        : "https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482930.jpg",
+        link: book.volumeInfo.infoLink,
+      })
+        .then((results) => {
+            console.log(results);
+        })
+        .catch(err => console.log(err));
+    }
+
 const Book = ({ book }) => {
 
     return (
         <div>
             <div className="row" key={book.id}>
                 <div className="col">{book.volumeInfo.title}
-                    {/* <button onClick={() => book.saveBook(book.id)} className="btn save">Save</button> */}
-                    <button>
-                        <a className="btn save" href={book.volumeInfo.infoLink} target="_blank">Save</a>
+                    <button onClick={() => handleSave(book)} className="save">
+                        Save
                     </button>
+                    {/* <button>
+                        <a className="btn save" href={book.volumeInfo.infoLink} target="_blank">Save</a>
+                    </button> */}
                     <button>
-                        <a className="btn view" href={book.volumeInfo.infoLink} target="_blank">View</a>
+                        <a className="view" href={book.volumeInfo.infoLink} target="_blank">View</a>
                     </button>
                 </div>
             </div>
