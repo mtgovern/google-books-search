@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import DeleteBtn from "../components/DeleteBtn";
+// import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
-import { List, ListItem } from "../components/List";
+// import { List, ListItem } from "../components/List";
 // import { Input, TextArea, FormBtn } from "../components/Form";
 
 function Saved() {
@@ -66,9 +66,9 @@ function Saved() {
 
       {books.length ? (
         books.map(book => (
-          <>
+          <div className="outer" key={book._id}>
             <Row>
-              <Col size="md-6" key={book._id}>
+              <Col size="md-6">
                 {book.title}
               </Col>
               <Col size="md-6">
@@ -88,7 +88,7 @@ function Saved() {
                 <span className="text">{book.description}</span>
               </Col>
             </Row>
-          </>
+          </div>
         ))) : (<h4>No Results to Display</h4>)}
 
     </Container>

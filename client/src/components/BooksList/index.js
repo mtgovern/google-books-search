@@ -61,13 +61,13 @@ const Book = ({ book }) => {
             <div className="row">
                 <div className="col">{bookAuthors(book.volumeInfo.authors)}</div>
             </div>
-            <duv className="row">
+            <div className="row">
                 <div className="col img-fluid">
                     <img alt={`${book.volumeInfo.title} book`}
                         src={`http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=&img=1&zoom=&ksource=gbs_api`} />
                     <span className="text">{book.volumeInfo.description}</span>
                 </div>
-            </duv>
+            </div>
         </div>
     );
 };
