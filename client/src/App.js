@@ -15,7 +15,7 @@ function App() {
         <Switch>
           <Route exact path={["/", "/search"]}>
             <Search />
-          </Route>
+          </Route>$
           <Route exact path="/saved">
             <Saved />
           </Route>
